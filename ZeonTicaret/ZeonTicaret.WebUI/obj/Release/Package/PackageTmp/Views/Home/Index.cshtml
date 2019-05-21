@@ -1,0 +1,13 @@
+﻿ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+@{
+
+    Html.RenderAction("Slider", "Home");
+
+
+    Html.RenderAction("YeniUrunler", "Home");
+    Html.RenderAction("Servis", "Home");
+}

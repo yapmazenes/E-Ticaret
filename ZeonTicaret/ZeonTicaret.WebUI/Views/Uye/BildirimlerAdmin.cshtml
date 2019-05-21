@@ -1,0 +1,27 @@
+﻿@using ZeonTicaret.WebUI.Models
+@model IEnumerable<ZeonTicaret.WebUI.Models.Bildirim>
+
+<li id="header_notification_bar" class="dropdown">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+        <i class="icon-bell-alt"></i>
+        <span class="badge bg-warning">@ViewBag.Count</span>
+    </a>
+    <ul class="dropdown-menu extended notification">
+        <div class="notify-arrow notify-arrow-yellow"></div>
+        <li>
+            <p class="yellow">@ViewBag.Count adet bildiriminiz var</p>
+        </li>
+        @foreach (Bildirim bld in Model)
+        {
+            <li>
+                <a href="#">
+                    <span class="label label-danger"><i class="icon-bolt"></i></span>
+                    @bld.Adi
+                    @*<span class="small italic"></span>*@
+                </a>
+            </li>
+        }
+        
+    </ul>
+</li>

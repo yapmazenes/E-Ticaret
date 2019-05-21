@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section head{
+    <style>
+        body {
+            padding: 20px 20px;
+        }
+
+        .results tr[visible="false"],
+        .no-result {
+            display: none;
+        }
+
+        .results tr[visible="true"] {
+            display: table-row;
+        }
+
+        .counter {
+            padding: 8px;
+            color: #ccc;
+        }
+    </style>
+}
+<section class="panel">
+    <header class="panel-heading">
+        Kullanıcılar
+    </header>
+
+    <a href="/Kullanici/RolAta" class="btn btn-success rounded " role="button">Rol Ata</a>
+    <div class="form-group pull-right">
+        <input type="text" id="search" class="search form-control" placeholder="Ara">
+    </div>
+    <span class="counter pull-right"></span>
+    <table class="table table-hover table-bordered results">
+        <thead>
+            <tr>
+                <th>Kullanıcı Adı</th>
+                <th>Email</th>
+                <th>Kayıt Tarihi</th>
+                <th>Son giriş Tarihi</th>
+                <th>Rolleri</th>
+                <th>Sil</th>
+             </tr>
+           
+        </thead>
+        <tbody>
+            @foreach (MembershipUser usr in Model)
+            {
+                <tr>
+                    <th>@usr.UserName</th>
+                    <th>@usr.Email</th>
+                    <th>@usr.CreationDate</th>
+                    <th>@usr.LastLoginDate</th>
+                    <th><a class="btn btn-primary rolleri" data-name="@usr.ProviderUserKey" href="#">Rolleri</a></th>
+                    <th><a href="#"><span data-name="@usr.UserName" class="glyphicon glyphicon-minus uyesil"></span></a></th>
+                </tr>
+            }
+        </tbody>
+
+       
+    </table>
+</section>
+@section scripts{
+    <script src="~/Content/Admin/js/jquery-1.8.3.min.js"></script>
+    <script>
+        var $rows = $('.table tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+    </script>
+    
+    <script>
+        $(".rolleri").click(function () {
+            var KA = $(this).data("name")
+            $.ajax({
+                type: "POST",
+                url: "/Kullanici/Rolleri",
+                data: { kadi: KA },
+                success: function (veri) {
+                    alert(veri)
+                }
+            })
+        })
+    </script>
+}
+
+
+
+    
+    
+

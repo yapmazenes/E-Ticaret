@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "SatisTamamla";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@model IEnumerable<ZeonTicaret.WebUI.App_Classes.SepetItem>
+@using ZeonTicaret.WebUI.App_Classes
+@using ZeonTicaret.WebUI.Models
+<div class="content">
+    <div class="container">
+        <div class="site-title"><div class="site-inside"><span>Checkout</span></div></div>
+        <div class="row">
+            <form class="register-form" action="/Satis/SonKontrol" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Ad <span class="neccesary">*</span></p>
+                        <input type="text" name="Adi" class="input-line">
+                    </div>
+                    <div class="col-md-6">
+                        <p>Soyad <span class="neccesary">*</span></p>
+                        <input type="text" name="Soyadi" class="input-line">
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+
+
+                    <h3>Adres Tanımla</h3>
+
+                    <p>Ülke <span class="neccesary">*</span></p>
+                    <select name="Ulke" class="input-line">
+
+                        @foreach (var ct in ViewBag.CountryList)
+                        {
+                            <option value="@ct">@ct</option>
+                        }
+                    </select>
+
+                    <p>Şehir <span class="neccesary">*</span></p>
+                    <input type="text" name="Sehir" class="input-line">
+
+                    <p>Kargo <span class="neccesary">*</span></p>
+                    <select name="KargoID" class="input-line">
+
+                        @foreach (Kargo k in ViewBag.Kargo)
+                        {
+                            <option value="@k.Id">@k.SirketAdi</option>
+                        }
+                    </select>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Posta Kodu <span class="neccesary">*</span></p>
+                            <input type="text" name="PostaKodu" class="input-line">
+                        </div>
+                        <div class="col-md-6">
+                            <p>Telefon No <span class="neccesary">*</span></p>
+                            <input type="number" maxlength="10" name="Telefon" class="input-line">
+                        </div>
+                    </div>
+                    <p>Adres <span class="neccesary">*</span></p>
+                    <textarea name="Adres" class="input-line"> </textarea>
+                  
+
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-12">
+                    <div class="order-title">Sepetiniz</div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <ul class="checkout-info">
+                                <li class="checkout-info-1">Ürün</li>
+                                <li class="checkout-info-2">Toplam</li>
+                            </ul>
+
+                            <div class="checkout-info-box">
+                                @foreach (SepetItem item in Model)
+                                {
+                                    <ul class="checkout-product">
+                                        <li class="checkout-product-1">@item.Urun.Adi x @item.Adet</li>
+                                        <li class="checkout-product-2">@item.Tutar</li>
+                                    </ul>
+                                }
+                                <!-- REPEAT PRODUCT
+                        <!-- CART DETAILS -->
+                                <ul class="checkout-product o-last">
+                                    <li class="checkout-product-1">Kart Toplamı</li>
+                                    <li class="checkout-product-2">@ViewBag.Toplam + KDV ₺</li>
+                                </ul>
+                                <ul class="checkout-product o-last">
+                                    <li class="checkout-product-1">Kargo</li>
+                                    <li class="checkout-product-2">Ücretsiz Kargo</li>
+                                </ul>
+                                <ul class="checkout-product last">
+                                    <li class="checkout-product-1">Son Toplam</li>
+                                    <li class="checkout-product-2">@ViewBag.Toplam₺</li>
+                                </ul>
+                                <!-- CART DETAILS -->
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="payment-method">
+                                <li><label><input type="radio" id="payment_method_bacs" class="input-radio" name="payment_method" value="Havale" checked="checked"> Havale</label></li>
+                                <li><label><input type="radio" id="payment_method_cheque" class="input-radio" name="payment_method" value="KontrolluOdeme"> Kontrollü Ödeme</label></li>
+                                <li><label><input type="radio" id="payment_method_paypal" class="input-radio" name="payment_method" value="paypal"> Paypal</label></li>
+
+                            </ul>
+                            <input class="btn btn-primary"  type="submit" name="name" value="Tamamla" />
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+     
+    </div>
+</div>

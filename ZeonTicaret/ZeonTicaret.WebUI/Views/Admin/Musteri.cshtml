@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Musteri";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using ZeonTicaret.WebUI.Models
+@model IEnumerable<ZeonTicaret.WebUI.Models.Musteri>
+
+<section class="panel">
+    <header class="panel-heading">
+        Ürünler
+    </header>
+
+    <form action="/AdminKargo/OnayBekleyenSiparisler/" method="post">
+        <div class="panel-body">
+            <div class="adv-table editable-table ">
+                <div class="clearfix">
+                    <div class="btn-group">
+
+
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            Araçlar <i class="icon-angle-down"></i>
+                        </button>
+
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">Print</a></li>
+                            <li><a href="#">Save as PDF</a></li>
+                            <li><a href="#">Export to Excel</a></li>
+                        </ul>
+                    </div>
+                </div><br />
+                <div class="space15"></div>
+                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <thead>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-mail</th>
+                            <th>Telefon</th>
+                            <th>Siparişler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var mst in Model)
+                    {
+                            <tr class="">
+                                <td>@mst.Adi</td>
+                                <td>@mst.Soyadi</td>
+                                <td>@mst.KullaniciAdi</td>
+                                <td>@mst.Email</td>
+                                <td>@mst.Telefon</td>
+                                <td><a href="/AdminKargo/OnayBekleyenSiparisler?id=@mst.Id.ToString()"><i class="icon-eye-open"></i></a></td>
+                                </tr>
+                               
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</section>

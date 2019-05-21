@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<section class="panel">
+    <header class="panel-heading">
+        Roller
+    </header>
+    <a style="margin:10px" href="/Rol/Ekle" class="btn btn-success rounded " role="button">+</a>
+    
+    <span class="counter pull-right"></span>
+    <table class="table table-hover table-bordered results">
+        <thead>
+            <tr>
+                <th>Rol Adı</th>
+                <th>Sil</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (String role in Model)
+            {
+                <tr>
+                    <th>@role</th>
+                    <th><a href="#"><span data-name="@role" class="glyphicon glyphicon-minus rolsil"></span></a></th>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</section>

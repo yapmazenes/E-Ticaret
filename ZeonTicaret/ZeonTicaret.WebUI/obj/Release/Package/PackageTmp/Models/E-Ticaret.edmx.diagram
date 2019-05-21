@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="650a1f35cae4457d90930c451b0608bb" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.aspnet_Roles" Width="1.5" PointX="1.5" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Users" Width="1.5" PointX="0.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Kargo" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Kategori" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Marka" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Musteri" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MusteriAdre" Width="1.5" PointX="5.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.OzellikDeger" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.OzellikTip" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Resim" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Sati" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SatisDetay" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SiparisDurum" Width="1.5" PointX="3" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Urun" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.UrunOzellik" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Musteri_aspnet_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Satis_Kargo" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Kategori_Resim" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_OzellikTip_Kategori" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Urun_Kategori" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Marka_Resim" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Urun_Marka" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_MusteriAdres_Musteri" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Satis_Musteri" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_OzellikDeger_OzellikTip" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UrunOzellik_OzellikDeger" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UrunOzellik_OzellikTip" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Resim_Urun" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Satis_SiparisDurum" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SatisDetay_Satis" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SatisDetay_Urun" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UrunOzellik_Urun" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.aspnet_Membership" Width="1.5" PointX="3" PointY="26" />
+        <AssociationConnector Association="Model.FK__aspnet_Me__UserI__6BE40491" />
+        <EntityTypeShape EntityType="Model.Mesaj" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="Model.FK_Mesaj_aspnet_Users" />
+        <AssociationConnector Association="Model.FK_Mesaj_aspnet_Users1" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.2257692307692305" PointY="15.125" />
+          <ConnectorPoint PointX="2.625" PointY="14.725769230769231" />
+          <ConnectorPoint PointX="2.3958333333333335" PointY="14.725769230769231" />
+          <ConnectorPoint PointX="2.3958333333333335" PointY="2.3170475260416667" />
+          <ConnectorPoint PointX="3" PointY="2.3170475260416667" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

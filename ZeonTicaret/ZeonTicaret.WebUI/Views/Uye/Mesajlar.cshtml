@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Mesajlar";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@model IEnumerable<ZeonTicaret.WebUI.Models.Mesaj>
+@using ZeonTicaret.WebUI.Models
+
+@section head{
+    <style>
+        #contextMenu {
+            position: absolute;
+            display: none;
+        }
+
+        .wrap {
+            width: 90%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        table {
+            border: 1px solid rgba(221, 221, 221, 1);
+        }
+
+        tr:nth-child(even) {
+            background: #F5F5F5;
+        }
+
+        tr {
+            position: relative;
+        }
+
+            tr:hover {
+                background: #c9e8f7;
+                position: relative;
+            }
+
+
+        .unread:hover {
+            cursor: pointer;
+        }
+    </style>
+    <script src="~/Content/Zeon/js/jquery-1.10.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$(".unread").click(function () {
+
+
+            //});
+            $(".unread").mousedown(function () {
+                var oturum = $(this).data("oturum");
+                $(function () {
+                    var $contextMenu = $("#contextMenu");
+                    $("body").on("contextmenu", "table tr", function (e) {
+                        $contextMenu.css({
+                            display: "block",
+                            left: e.pageX,
+                            top: e.pageY
+                        })
+                        $("#dty").click(function () {
+                            window.location = "/Uye/MesajDetay/" + oturum;
+                        })
+                        $("#sil").click(function () {
+
+                            alert("sil " + oturum);
+                        })
+                        return false;
+                    });
+
+                    $('html').click(function () {
+                        $contextMenu.hide();
+                    });
+
+                });
+
+
+
+            })
+        });
+
+
+    </script>
+}
+
+<div class="inbox-body">
+    <a class="btn btn-success" style="width:80%;margin-left:10%;margin-bottom:10PX" data-toggle="modal" href="#myModal">
+        Yeni Mesaj
+    </a>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Mesaj gönder</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/Uye/MesajAt" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Kime </label>
+                            <div class="col-lg-10">
+                                <select class="form-control" name="ToID" id="inputEmail1">
+                                    @foreach (_191117Mvc_Template.App_Classes.Kullanici item in ViewBag.Admins)
+                                    {
+                                        <option value="@item.Idkey">@item.KullaniciAdi</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Başlık</label>
+                            <div class="col-lg-10">
+
+
+                                <input type="text" name="Baslik" class="form-control" id="inputPassword1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Konu</label>
+                            <div class="col-lg-10">
+                                <input type="text" name="Konu" class="form-control" id="inputPassword1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Mesaj</label>
+                            <div class="col-lg-10">
+                                <textarea name="Mesaj" class="form-control" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="submit" class="btn btn-send">Gönder</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<table class="table table-inbox table-hover" style="width:80%;margin-left:10%">
+
+    <tbody>
+
+        @foreach (Mesaj item in Model)
+        {
+
+
+            <tr class="unread" data-oturum="@item.Oturum">
+
+                <td class="view-message  dont-show">
+                    @item.aspnet_Users.UserName
+                    @if (item.OkunduMu == false)
+                    {
+                        <i id="kirmizi" style="color:red;font-size:14px">&#9679;</i>
+                    }
+                </td>
+                <td class="view-message ">@item.Konu</td>
+                <td class="view-message  text-right">@item.SendDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="contextMenu" class="dropdown clearfix">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+        <li>
+            <a tabindex="-1" id="dty" href="#">Detay</a>
+        </li>
+        <li>
+            <a tabindex="-1" id="sil" href="#">Sil</a>
+        </li>
+
+    </ul>
+</div>

@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "SatisTamamla";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@model IEnumerable<ZeonTicaret.WebUI.App_Classes.SepetItem>
+@using ZeonTicaret.WebUI.App_Classes
+@section head{
+    <script src="~/content/admin/js/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".plus").click(function () {
+                var id = $(this).data("id");
+                var sonucAdet = ".Adet" + "." + id;
+                var adet = $(sonucAdet).val();
+                adet++;
+                $(sonucAdet).val(adet);
+            });
+            $(".minus").click(function () {
+                var id = $(this).data("id");
+                var sonucAdet = ".Adet" + "." + id;
+                var adet = $(sonucAdet).val();
+                if (adet>0) {
+                    adet--;
+                    $(sonucAdet).val(adet);
+                }
+               
+            });
+        });
+         
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".repeat").click(function () {
+                var id = $(this).data("id");
+                var ilkAdet = $(this).data("ilkadet");
+                var inputAdet = ".Adet" + "." + id;
+                var inputAdetSayisi = $(inputAdet).val();
+                alert("yeni adet sayi"+inputAdetSayisi);
+                var sonuclabel = ".tutar" + "." + id;              
+                alert("ilk adet sayi" + ilkAdet);
+                if (ilkAdet < inputAdetSayisi) {
+
+                    $.ajax({
+                        type: "get",
+                        url: "/Home/SepeteEkle",
+                        data: { id: id, adet: inputAdetSayisi,oncekiAdet:ilkAdet },
+                        success: function myfunction(tutar) {
+                            $(inputAdet).val(inputAdetSayisi);
+
+                            $(sonuclabel).text(tutar);
+                        }
+                    });
+                }
+                else if (ilkAdet > inputAdetSayisi) {
+                    $.ajax({
+                        type: "get",
+                        url: "/Home/SepetUrunAdetDusur",
+                        data: { id: id, adet: inputAdetSayisi },
+                        success: function myfunction(tutar) {
+                            $(inputAdet).val(inputAdetSayisi);
+
+                            $(sonuclabel).text(tutar);
+                        }
+                    });
+                }
+              
+               
+            });
+        });
+    </script>
+
+}
+
+
+<div class="content">
+    <div class="container">
+        <h2>Alışveriş Kartı</h2>
+
+        <div class="shopping-cart">
+            <div class="shopping-cart-products">
+                <ul class="shopping-product-detail">
+                    <li class="shopping-1">Ürün Resmi</li>
+                    <li class="shopping-2">Ürün Adı</li>
+                    <li class="shopping-3">Açıklama</li>
+                    <li class="shopping-4">Adet</li>
+                    <li class="shopping-5">Fiyat</li>
+                    <li class="shopping-6">Toplam Fiyat</li>
+
+                </ul>
+
+                <!-- REPEAT BY PRODUCT -->
+                @foreach (SepetItem Sitem in Model)
+                {
+                    <ul class="shopping-product-detail">
+                        <li class="shopping-1">
+                            <img src="@Sitem.Urun.Resims.FirstOrDefault(x=>x.UrunID==Sitem.Urun.Id && x.Varsayilan==true).OrtaYol" alt="@Sitem.Urun.Adi">
+                        </li>
+                        <li class="shopping-2">
+                            <a href="#">@Sitem.Urun.Adi</a>
+                            <p>blazer blue</p>
+                        </li>
+                        <li class="shopping-3">
+                            <p>@Sitem.Urun.Aciklama</p>
+                        </li>
+                        <li class="shopping-4">
+                            <input type="button" value="-" data-id="@Sitem.Urun.Id" class="minus">
+                            <input type="number"  name="Adet" value="@Sitem.Adet"  class="input-text qty text Adet @Sitem.Urun.Id">
+                            <input type="button" data-id="@Sitem.Urun.Id" class="plus" value="+">
+                            <a href="#" data-id="@Sitem.Urun.Id" data-ilkadet="@Sitem.Adet" class="btn btn-info btn-large repeat">
+                                <span class="icon-499"></span>
+                            </a>
+                        </li>
+                        <li class="shopping-5">
+                            @Sitem.Urun.SatisFiyati
+                        </li>
+                        <li class="shopping-6">
+                            <i class="tutar @Sitem.Urun.Id">@Sitem.Tutar</i>  <a href="/Home/SepetUrunAdetDusur/@Sitem.Urun.Id"> <button>x</button></a>
+
+                        </li>
+
+                    </ul>
+                }
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="/Home/Index" class="button-7">Alışverişe Devamet</a>
+                </div>
+                <div class="col-md-5">
+                    <div class="coupon">
+                        <input class="input-line" type="text" name="coupon" />
+                        <button class="button-6">Uygula</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="checkout-total">
+                        <p>Ürünler Toplam Fiyatı : @ViewBag.ToplamTutar </p>
+                        <p>Toplam KDV : @ViewBag.ToplamKDV</p>
+                        <p>Alışveriş İndirimi : 0.00</p>
+                        <hr>
+                        <p>Toplam :@ViewBag.Toplam</p>
+                        <a href="/Satis/SonKontrol"><button class="button-6">Son Kontrol</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "-Zeon Ticaret ";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@model ZeonTicaret.WebUI.Models.Urun
+@using ZeonTicaret.WebUI.Models
+@section head {
+<script src="~/Content/Zeon/js/jquery-1.10.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".sepeteAt").click(function () {
+            var uid = $(this).attr("name");
+            var adt = $("#Adet").val();
+            $.ajax({
+                type: "Get",
+                url: "/Home/SepeteEkle",
+                data: { id: uid,adet:adt },
+                success: function myfunction() {
+                    $.ajax({
+                        type: "get",
+                        url: "/Home/Sepet",
+                        success: function VeriGetir(veri) {
+                            $(".cart-all").html('');
+                            $(".cart-all").html(veri);
+                            alert("Ürün Sepete Eklendi");
+                        }
+                    })
+                },
+                error: function myfunction() {
+                    alert("Ürün sepetinize eklenemedi");
+                }
+            })
+        })
+    });
+
+</script>
+
+    <script>
+        $(document).ready(function () {
+            var adet;
+            $("#plus").click(function () {
+                adet = $("#Adet").val();        
+              adet++;
+                alert(adet);
+                $("#Adet").val(adet);
+            })
+        });
+        $(document).ready(function () {
+            $("#minus").click(function () {
+                adet =$("#Adet").val();
+                if ((adet > 0)) {
+                    adet--;
+                    $("#Adet").val(adet);
+                }
+
+            });
+
+
+        });
+       
+      </script>
+     
+
+
+    
+}
+
+
+
+
+
+
+
+<div class="product-one">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="the-slider product-big-image" data-tesla-plugin="slider" data-tesla-item=".slide" data-tesla-next=".product-image-arrows-right" data-tesla-prev=".product-image-arrows-left" data-tesla-container=".slide-wrapper">
+                    <ul class="product-image-arrows">
+                        <li class="product-image-arrows-left"><i class="icon-517" title="left"></i></li>
+                        <li class="product-image-arrows-right"><i class="icon-501" title="right"></i></li>
+                    </ul>
+                    <ul class="slide-wrapper">
+                        @foreach ( Resim item in Model.Resims)
+                        {
+                              <li class="slide"><img src="@item.BuyukYol" alt="@Model.Adi" /></li>
+                        }
+                      
+                       
+                    </ul>
+                    <div class="row">
+                        <ul class="the-bullets-dots" data-tesla-plugin="bullets">
+                            @foreach (Resim item in Model.Resims)
+                            {
+                                
+  <li><div class="col-md-2 col-xs-2"><img src="@item.OrtaYol" alt="@Model.Adi" /></div></li>
+
+                            }
+                           
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>@Model.Adi</h2>
+                @foreach (OzellikTip tip in ViewBag.OzellikTip)
+                {
+                    <div class="sort-dropdown">
+                    <span>@tip.Adi <i class="icon-515" title="515"></i></span>
+                    <ul>
+                        @foreach (OzellikDeger ozdeger in ViewBag.OzellikDeger)
+                        {
+                            if (ozdeger.OzellikTip.Id==tip.Id)
+                            {
+                                 <li><a href="#">@ozdeger.Adi </a></li>
+                            }
+                           
+                        }
+                    </ul>
+                </div>
+                }
+                
+                <div class="clear"></div>
+                <div class="quantity">
+                    <input type="button" value="-" id="minus" class="minus">
+                    <input type="number" step="1" min="1" name="Adet" id="Adet" value="" title="Qty" class="input-text qty text">
+                    <input type="button" id="plus" class="plus" value="+">
+                   
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="product-price">Fiyat : @Model.SatisFiyati.ToString("C2")</div>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" name="@Model.Id" data-adet="" class="button-2 sepeteAt" >Sepete Ekle</a>
+                       
+                    </div>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#description" data-toggle="tab">Açıklama</a></li>
+                   
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="description">
+                        <p>@Model.Aciklama</p>
+                        
+                        <ul class="social-share">
+                            <li><span>Paylaş</span></li>
+                            <li><a href="#"><i class="icon-160" title="161"></i></a></li>
+                            <li><a href="#"><i class="icon-138" title="161"></i></a></li>
+                            <li><a href="#"><i class="icon-106" title="161"></i></a></li>
+                            <li><a href="#"><i class="icon-169" title="161"></i></a></li>
+                            <li><a href="#"><i class="icon-163" title="161"></i></a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

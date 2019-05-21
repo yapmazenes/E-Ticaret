@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "MesajDetay";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@model IEnumerable<ZeonTicaret.WebUI.Models.Mesaj>
+@using ZeonTicaret.WebUI.Models
+@section head{
+    <script src="~/Content/Zeon/js/jquery-1.10.0.min.js"> </script>
+    <style>
+        /* Chat containers */
+        .c {
+            width: 900px;
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 300px;
+        }
+
+        .isim {
+            color: dimgray;
+        }
+
+        .text {
+            max-width: 880px;
+            max-height: 100px;
+        }
+
+        /* Darker chat container */
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
+
+        /* Clear floats */
+        .c::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Style images */
+        .c img {
+            float: left;
+            max-width: 60px;
+            width: 100%;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+
+            /* Style the right image */
+            .c img.right {
+                float: right;
+                margin-left: 20px;
+                margin-right: 0;
+            }
+
+        /* Style time text */
+        .time-right {
+            float: right;
+            color: #aaa;
+        }
+
+        /* Style time text */
+        .time-left {
+            float: right;
+            color: #999;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $(".mesajCevap").click(function () {
+                var oturum = $(this).data("oturum");
+                var ToID = $("#toID").val();
+                var mesaj = $(".text").val();
+                alert(mesaj);
+                alert(ToID);
+
+                $.ajax({
+                    url: "/Uye/MesajCevap",
+                    type: "get",
+                    data: ({ id: oturum, msg: mesaj, toID: ToID }),
+                    success: function (data) {
+                        $("#mesaj").append(data);
+                        $(".text").val("");
+                    }
+                })
+
+            })
+
+        });
+    </script>
+}
+
+<div id="mesaj">
+
+    @foreach (Mesaj item in Model)
+    {
+        if (item.aspnet_Users.UserName == User.Identity.Name)
+        {
+            <div class="c">
+
+                <p class="isim">@item.aspnet_Users.UserName</p>
+                <span>@item.Mesaj1</span>
+                <span class="time-right">@item.SendDate</span>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" id="toID" value="@item.aspnet_Users.UserId" />
+        <div class="c darker">
+
+            <p class="isim">@item.aspnet_Users.UserName</p>
+            <span>@item.Mesaj1</span>
+            <span class="time-left">@item.SendDate</span>
+        </div>
+        }
+    }
+</div>
+<div class="c">
+    <div class="form-group">
+        <textarea class="text form-control"></textarea><br />
+        <a style="margin-left:800px" class="btn btn-success mesajCevap" data-oturum="@Model.Select(x=>x.Oturum).FirstOrDefault()" href="#">Gönder</a>
+    </div>
+</div>

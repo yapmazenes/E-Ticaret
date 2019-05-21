@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ZeonTicaret.WebUI.Models.Mesaj>
+@using ZeonTicaret.WebUI.Models
+@using ZeonTicaret.WebUI.App_Classes
+@{
+    ViewBag.Title = "MesajDetay";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section head{
+    <script src="~/Content/Admin/js/jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            {
+                alert("döküman hazır");
+                $("#mesajCevap").click(function () {
+                    alert("sa");
+                    var oturum = $("#id").val();
+                    var ToID = $("#toID").val();
+                    var mesaj = $("#msg").val();
+                    alert(mesaj);
+                    alert(ToID);
+                    alert(oturum);
+
+                    $.ajax({
+                        url: "/Uye/MesajCevap",
+                        type: "get",
+                        data: ({ id: oturum, msg: mesaj, toID: ToID, admin: "True" }),
+                        success: function (data) {
+                            $(".adminmsg").append(data);
+                            $("#msg").val("");
+                        }
+                    })
+                });
+            }
+        });
+
+    </script>
+
+}
+<div class="col-lg-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Mesaj Detay
+            <span class="tools pull-right">
+                <a class="icon-chevron-down" href="javascript:;"></a>
+                <a class="icon-remove" href="javascript:;"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="adminmsg">
+
+                @foreach (Mesaj item in Model)
+                {
+                    if (item.aspnet_Users.UserName == User.Identity.Name)
+                    {
+                <!-- Comment -->
+                        <div class="msg-time-chat ">
+                            <a href="#" class="message-img"></a>
+                            <div class="message-body msg-in">
+                                <span class="arrow"></span>
+                                <div class="text">
+                                    <p class="attribution"><a href="#">@item.aspnet_Users.UserName</a> @item.SendDate</p>
+                                    <p>@item.Mesaj1</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="msg-time-chat">
+                            <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
+                            <div class="message-body msg-out">
+                                <span class="arrow"></span>
+                                <div class="text">
+                                    <p class="attribution"> <a href="#">@item.aspnet_Users.UserName</a>@item.SendDate</p>
+                                    <p>@item.Mesaj1</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="timeline-messages">
+            </div>
+
+            <input type="hidden" id="id" value="@Model.Select(x => x.Oturum).FirstOrDefault()" />
+
+            <div class="chat-form">
+                <div class="input-cont ">
+                    <input type="text" id="msg" class="form-control col-lg-12" placeholder="Mesajınızı buraya giriniz...">
+                </div>
+                <input type="hidden" id="toID" value="@Model.Select(x=>x.MesajAtanID).FirstOrDefault()" />
+                <div class="form-group">
+                    <div class="pull-right chat-features">
+                        <a style="margin-right:15px" id="mesajCevap" href="javascript:void(0)" class="btn btn-danger">
+                            Gönder
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>

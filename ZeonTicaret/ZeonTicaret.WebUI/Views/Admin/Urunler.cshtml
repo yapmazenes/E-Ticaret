@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Urunler";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model IEnumerable<ZeonTicaret.WebUI.Models.Urun>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Ürünler
+        </header>
+      
+
+        <div class="panel-body">
+            <div class="adv-table editable-table ">
+                <div class="clearfix">
+                    <div class="btn-group">
+
+                        <a id="editable-sample_new" class="btn btn-primary green" href="/Admin/UrunEkle">
+                            Yeni Ürün <i class="icon-plus"></i>
+                        </a>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            Araçlar <i class="icon-angle-down"></i>
+                        </button>
+
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">Print</a></li>
+                            <li><a href="#">Save as PDF</a></li>
+                            <li><a href="#">Export to Excel</a></li>
+                        </ul>
+                    </div>
+                </div><br />
+                <div class="space15"></div>
+                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Açıklama</th>
+                            <th>Alış Fiyat</th>
+                            <th>Satış Fiyat</th>
+                            <th>Kategori</th>
+                            <th>Eklenme Tarihi</th>
+                            <th>Marka</th>
+                            <th>Resim Ekle</th>
+                            <th>Güncelle</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var urun in Model)
+                        {
+                            <tr class="">
+                                <td>@urun.Adi</td>
+                                <td>@urun.Aciklama</td>
+                                <td>@urun.AlisFiyati</td>
+                                <td>@urun.SatisFiyati</td>
+                                <td>@urun.Kategori.Adi</td>
+                                <td>@urun.EklenmeTarihi</td>
+                                <td>@urun.Marka.Adi</td>
+                                <td><a class="btn btn-primary btn-xs" href="/Admin/UrunResimEkle/@urun.Id"><i class="icon-instagram"></i></a></td>
+                                <td><a class="btn btn-primary btn-xs" href="/Admin/UrunGuncelle/@urun.Id"><i class="icon-pencil"></i></a></td>
+                                <td><a class="btn btn-danger btn-xs urnsil" data-name="@urun.Adi" data-id="@urun.Id" href="#"><i class="icon-trash"></i></a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                @if (ViewBag.Sonuc == 1)
+                {
+                    <input type="hidden" name="" id="sonuc" value="1" />
+                }
+            </div>
+        </div>
+    </section>
+@section scripts{
+<script src="~/Content/Admin/js/jquery.bootstrap-growl.js"></script>
+
+<script>
+    $(".urnsil").click(function () {
+        var name = $(this).data("name");
+        var sonuc = confirm(name + "kaydı silinsin mi");
+        if (sonuc) {
+            var kID = $(this).data("id");
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/UrunSil/" + kID,
+                success: function () {
+                    alert("Silindi")
+                    window.location.replace("/Admin/Urunler");
+                },
+                error: function () {
+                    alert("SİLİNEMEDİ");
+
+                }
+            });
+
+        }
+
+    });
+    </script>
+<script>
+    var sonuc = $("#sonuc").val();
+    if (sonuc == 1) {
+        $.bootstrapGrowl('Güncelleme başarılı', {
+            type: 'success',
+            delay: 2000,
+        });
+    }
+</script>
+
+}

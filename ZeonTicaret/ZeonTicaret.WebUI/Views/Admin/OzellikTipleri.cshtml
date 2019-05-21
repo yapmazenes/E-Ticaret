@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewBag.Title = "OzellikTipleri";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@model IEnumerable<ZeonTicaret.WebUI.Models.OzellikTip>
+          
+@section body{
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Özellik Tip Güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button><br />
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <form class="form-horizontal tasi-form" action="/Admin/OzellikTipGuncelle/" method="post">
+
+                        <input type="hidden" id="Id" name="Id" value="" />
+
+                        <div class="form-group has-warning">
+                            <label class="col-lg-2 control-label">Kategori Adı</label>
+                            <div class="col-md-5">
+                                <div id="spinner1">
+                                    <select id="ktgdrp" class="form-control m-bot15" name="KategoriID">
+                                        @foreach (var ktg in ViewBag.Kategori)
+                                        {
+                                            
+                                            <option  value="@ktg.Id">@ktg.Adi</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Özellik Tip Adı</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="Adi" name="Adi" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Açıklama</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="Aciklama" name="Aciklama" class="form-control">
+                            </div>
+                        </div>
+                      
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                            <button type="submit"  class="btn btn-primary ">Kaydet</button>
+
+                        </div>
+
+                        
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+    }
+<section class="panel">
+    <header class="panel-heading">
+        Özellik Tipleri
+    </header>
+    <div class="panel-body">
+       
+        <div  class="adv-table editable-table ">
+            <div class="clearfix">
+                <div class="btn-group">
+                   
+                    <a id="editable-sample_new" class="btn btn-primary green" href="/Admin/OzellikTipEkle">
+                        Yeni Özellik Tip <i class="icon-plus"></i>
+                    </a>
+                </div>
+                <div class="btn-group pull-right">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        Araçlar <i class="icon-angle-down"></i>
+                    </button>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#">Print</a></li>
+                        <li><a href="#">Save as PDF</a></li>
+                        <li><a href="#">Export to Excel</a></li>
+                    </ul>
+                </div>
+            </div><br />
+            <div class="space15"></div>
+            @if (ViewBag.Sonuc == 1)
+{
+    <input type="hidden" name="" id="sonuc" value="1" />
+}
+           
+            <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                <thead>
+                    <tr>
+                        <th>Özellik Tip Adı</th>
+                        <th>Açıklama</th>
+                        <th>Kategori</th>
+                        <th>Güncelle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ozt in Model)
+                    {
+                        <tr>
+                            <td>@ozt.Adi</td>
+                            <td>@ozt.Aciklama</td>
+                            @if (ozt.Kategori!=null)
+                            {
+                                  <td>@ozt.Kategori.Adi</td>
+                            }
+                            <td>
+                               
+                                <button type="button" data-ktgid="@ozt.Kategori.Id" data-adi="@ozt.Adi" data-aciklama="@ozt.Aciklama" data-kimlik="@ozt.Id" class="btn btn-primary btn-xs edit" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="icon-pencil "></i>
+                                </button>
+                            </td>   
+                            <td><a class="btn btn-danger btn-xs oztsil" data-name="@ozt.Adi" data-id="@ozt.Id" href="#"><i class="icon-trash"></i></a></td>
+                           
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section scripts{
+
+
+<script src="~/Content/Admin/js/jquery.bootstrap-growl.js"></script>
+    <script type="text/javascript">
+    $(".oztsil").click(function () {
+        var name = $(this).data("name");
+        var sonuc = confirm(name + "kaydı silinsin mi");
+        if (sonuc) {
+            var kID = $(this).data("id");
+            $.ajax({
+                type: "POST",
+                url: "/Admin/OzellikTipSil/" + kID,
+                success: function () {
+                    alert("Silindi")
+                    window.location.replace("/Admin/OzellikTipleri");
+                },
+                error: function () {
+                    alert("SİLİNEMEDİ");
+                }
+            });
+        }
+    });
+</script>
+    <script>   
+        
+        $(".edit").click(function () {
+            var id = $(this).data("kimlik");
+            var ktgid = $(this).data("ktgid");
+            var Adi = $(this).data("adi");
+            var Aciklama= $(this).data("aciklama");
+            $("#ktgdrp").val(ktgid);
+            $("#Adi").val(Adi);
+            $("#Aciklama").val(Aciklama);
+            $("#Id").val(id);
+
+        })
+     
+    </script>
+    <script>
+        var sonuc = $("#sonuc").val();
+        if (sonuc==1) {
+            $.bootstrapGrowl('Güncelleme başarılı', {
+                type: 'success',
+                delay: 2000,
+            });
+        }   
+    </script>
+}

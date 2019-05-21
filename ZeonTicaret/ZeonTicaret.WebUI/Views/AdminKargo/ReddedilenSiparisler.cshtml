@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "ReddedilenSiparisler";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using ZeonTicaret.WebUI.Models
+@model IEnumerable<ZeonTicaret.WebUI.Models.Sati>
+
+<section class="panel">
+    <header class="panel-heading">
+        Ürünler
+    </header>
+
+
+    <div class="panel-body">
+        <div class="adv-table editable-table ">
+            <div class="clearfix">
+                <div class="btn-group">
+
+
+                </div>
+                <div class="btn-group pull-right">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        Araçlar <i class="icon-angle-down"></i>
+                    </button>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#">Print</a></li>
+                        <li><a href="#">Save as PDF</a></li>
+                        <li><a href="#">Export to Excel</a></li>
+                    </ul>
+                </div>
+            </div><br />
+
+            <div class="space15"></div>
+            <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                <thead>
+                    <tr>
+                        <th>Müşteri Kullanıcı Adı</th>
+                        <th>Müşteri E-mail</th>
+                        <th>Satış Tarihi</th>
+                        <th>Toplam Tutar</th>
+                        <th>Telefon</th>
+                        <th>İncele</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (Sati s in Model)
+                    {
+
+                        <tr class="">
+                            <td>@s.Musteri.KullaniciAdi</td>
+                            <td>@s.Musteri.Email</td>
+                            <td>@s.SatisTarihi</td>
+                            <td>@s.ToplamTutar</td>
+                            <td>@s.Musteri.Telefon</td>
+                            <td><a href="/AdminKargo/SiparisDetay/@s.Id"> <i class="icon-eye-open"></i></a></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

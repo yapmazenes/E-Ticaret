@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+
+    }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <title>FlatLab - Flat & Responsive Bootstrap Admin Template</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/Content/Admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Content/Admin/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/Content/Admin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/Content/Admin/css/style.css" rel="stylesheet">
+    <link href="/Content/Admin/css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/Content/Admin/assets/bootstrap-fileupload/bootstrap-fileupload.css" />
+    
+    <style>
+        #Hata {
+            color: red;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="container">
+        <form class="form-signin" method="post" role="form" enctype="multipart/form-data" action="/Kullanici/Ekle">
+            <h2 class="form-signin-heading">Şimdi kayıt ol</h2>
+            <div class="login-wrap">
+                <p>Kişisel bilgilerinizi giriniz</p>
+                <input type="text" class="form-control" name="KullaniciAdi" placeholder="Kullanıcı adınız" autofocus>
+                <input type="password" class="form-control" name="Parola" placeholder="Parola" autofocus>
+                <input type="text" class="form-control" name="Email" placeholder="Email giriniz" autofocus>
+                <input type="text" class="form-control" name="Gizlisoru" placeholder="Gizli Soru" autofocus>
+                <input type="text" class="form-control" name="Gizlicevap" placeholder="Gizli Cevap" autofocus>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Avatar Resmi Seç</label>
+                    <div class="controls col-md-9">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <span class="btn btn-white btn-file">
+                                <span class="fileupload-new"><i class="icon-paper-clip"></i> Resim seç</span>
+                                <span class="fileupload-exists"><i class="icon-undo"></i> Değiştir</span>
+
+                                <input type="file" name="fileUpload" class="default" />
+                            </span>
+                            <span class="fileupload-preview" style="margin-left:5px;"></span>
+                            <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none; margin-left:5px;"></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-lg btn-login btn-block" type="submit">Kaydet</button>
+                <div class="registration">
+                    Hesabınız varmı ?
+                    <a class="" href="/Uye/GirisYap">
+                        Giriş Yap
+                    </a>
+                </div>
+            </div>
+        </form>
+        <span id="Hata">@ViewBag.Mesaj</span>
+    </div>
+
+</body>
+</html>
+

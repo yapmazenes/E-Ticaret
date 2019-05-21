@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ZeonTicaret.WebUI.Models.Mesaj>
+@using ZeonTicaret.WebUI.Models
+@using ZeonTicaret.WebUI.App_Classes
+
+@helper IcerikKisalt(string metin)
+{
+    if (metin.Length > 30)
+    {
+        @metin.Substring(0, 30)
+    }
+    else
+    {
+        @metin
+    }
+}
+
+
+<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+    <i class="icon-envelope-alt"></i>
+    <span class="badge bg-important">@ViewBag.MesajSayi</span>
+</a>
+<ul class="dropdown-menu extended inbox">
+    <div class="notify-arrow notify-arrow-red"></div>
+    <li>
+        <p class="red">Okunmamış @ViewBag.MesajSayi tane mesajınız var</p>
+    </li>
+
+    @foreach (Mesaj item in Model)
+    {
+        <li>
+            <a href="/Uye/Modal/@item.Oturum">
+                <span class="photo">@*<img alt="avatar" src="@ViewBag.Resims[i]">*@</span>
+                <span class="subject">
+                    <span class="from">@item.aspnet_Users.UserName</span>
+                    <span class="time">@item.SendDate</span>
+                </span>
+                <span class="message">
+                    @IcerikKisalt(item.Mesaj1)...
+                </span>
+            </a>
+        </li>
+
+    }
+    <li>
+        <a href="#">Tüm Mesajları Göster</a>
+    </li>
+
+
+
+</ul>
+
+
